@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SET_READER_CONFIG xmlns="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0" xmlns:llrp="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Impinj="http://developer.impinj.com/ltk/schema/encoding/xml/1.0" xsi:schemaLocation="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0 http://www.llrp.org/ltk/schema/core/encoding/xml/1.0/llrp.xsd http://developer.impinj.com/ltk/schema/encoding/xml/1.4 http://developer.impinj.com/ltk/schema/encoding/xml/1.4/impinj.xsd" MessageID="0">
+	<ResetToFactoryDefault>false</ResetToFactoryDefault>
+	<AntennaConfiguration>
+		<AntennaID>1</AntennaID>
+		<C1G2InventoryCommand>
+			<TagInventoryStateAware>false</TagInventoryStateAware>
+			<!--Enable Low Duty Cycle when no tags are seen for 10 seconds.  Check antennas every 200 msec -->
+			<Impinj:ImpinjLowDutyCycle xmlns="http://developer.impinj.com/ltk/schema/encoding/xml/1.4">
+				<LowDutyCycleMode>Enabled</LowDutyCycleMode>
+				<EmptyFieldTimeout>10000</EmptyFieldTimeout>
+				<FieldPingInterval>200</FieldPingInterval>
+			</Impinj:ImpinjLowDutyCycle>
+		</C1G2InventoryCommand>
+	</AntennaConfiguration>
+</SET_READER_CONFIG>
