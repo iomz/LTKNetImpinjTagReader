@@ -53,7 +53,7 @@
 			<EnableInventoryParameterSpecID>false</EnableInventoryParameterSpecID>
 			<EnableAntennaID>true</EnableAntennaID>
 			<EnableChannelIndex>false</EnableChannelIndex>
-			<EnablePeakRSSI>true</EnablePeakRSSI>
+			<EnablePeakRSSI>false</EnablePeakRSSI>
 			<EnableFirstSeenTimestamp>false</EnableFirstSeenTimestamp>
 			<EnableLastSeenTimestamp>false</EnableLastSeenTimestamp>
 			<EnableTagSeenCount>false</EnableTagSeenCount>

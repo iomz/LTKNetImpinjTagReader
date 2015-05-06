@@ -13,4 +13,29 @@
 			</Impinj:ImpinjLowDutyCycle>
 		</C1G2InventoryCommand>
 	</AntennaConfiguration>
+	<ROReportSpec>
+		<ROReportTrigger>Upon_N_Tags_Or_End_Of_ROSpec</ROReportTrigger>
+		<N>1</N>
+		<TagReportContentSelector>
+			<EnableROSpecID>false</EnableROSpecID>
+			<EnableSpecIndex>false</EnableSpecIndex>
+			<EnableInventoryParameterSpecID>false</EnableInventoryParameterSpecID>
+			<EnableAntennaID>true</EnableAntennaID>
+			<EnableChannelIndex>false</EnableChannelIndex>
+			<EnablePeakRSSI>false</EnablePeakRSSI>
+			<EnableFirstSeenTimestamp>false</EnableFirstSeenTimestamp>
+			<EnableLastSeenTimestamp>false</EnableLastSeenTimestamp>
+			<EnableTagSeenCount>false</EnableTagSeenCount>
+			<EnableAccessSpecID>true</EnableAccessSpecID>
+			<C1G2EPCMemorySelector>
+				<EnableCRC>false</EnableCRC>
+				<EnablePCBits>true</EnablePCBits>
+			</C1G2EPCMemorySelector>
+		</TagReportContentSelector>
+		<Impinj:ImpinjTagReportContentSelector>
+			<Impinj:ImpinjEnablePeakRSSI>
+				<Impinj:PeakRSSIMode>Enabled</Impinj:PeakRSSIMode>
+			</Impinj:ImpinjEnablePeakRSSI>
+		</Impinj:ImpinjTagReportContentSelector>
+	</ROReportSpec>
 </SET_READER_CONFIG>

@@ -26,10 +26,11 @@ namespace DocSample3
                 // Loop through and print out each tag
                 for (int i = 0; i < msg.TagReportData.Length; i++)
                 {
+					//Console.WriteLine(msg);
                     reportCount++;
-
                     // just write out the EPC as a hex string for now. It is guaranteed to be
                     // in all LLRP reports regardless of default configuration
+
                     string data = "EPC: ";
                     if (msg.TagReportData[i].EPCParameter[0].GetType() == typeof(PARAM_EPC_96))
                     {
@@ -38,6 +39,13 @@ namespace DocSample3
                     else
                     {
                         data += ((PARAM_EPCData)(msg.TagReportData[i].EPCParameter[0])).EPC.ToHexString();
+                    }
+
+					// Get PC Bits
+					if (msg.TagReportData[i].AirProtocolTagData.Length == 1)
+					{
+					    data += " PCBits: ";
+						data += ((PARAM_C1G2_PC)(msg.TagReportData[i].AirProtocolTagData[0])).PC_Bits.ToString();
                     }
 
                     #region CheckForAccessResults
@@ -114,9 +122,6 @@ namespace DocSample3
                 Console.WriteLine(msg.ReaderEventNotificationData.ReportBufferOverflowErrorEvent.ToString());
             if (msg.ReaderEventNotificationData.ROSpecEvent != null)
                 Console.WriteLine(msg.ReaderEventNotificationData.ROSpecEvent.ToString());
-
-
-
         }
 
         static void usage()
@@ -537,11 +542,13 @@ namespace DocSample3
             #endregion
 
             #region ADDAccessSpec
-            {
-                /* This section adds a second accessSpec identical to the
-                 * first (except for its ID).  This is duplicate code with
-                 * the goal of showing an example of how to build LLRP specs
-                 * from C# objects rather than XML */
+			/* This section adds a second accessSpec identical to the
+             * first (except for its ID).  This is duplicate code with
+             * the goal of showing an example of how to build LLRP specs
+             * from C# objects rather than XML */
+			/*
+			{
+
                 Console.WriteLine("Adding AccessSpec from C# objects \n");
 
                 // create the target tag filter spec to perform access only on these tags
@@ -618,6 +625,7 @@ namespace DocSample3
                     return;
                 }
             }
+			*/
             #endregion
 
             #region EnableAccessSpec
@@ -721,7 +729,7 @@ namespace DocSample3
             // wait around to collect some data.
             for (int delay = 0; delay < 1; delay++)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 #region PollReaderReports
                 {
                     Console.WriteLine("Polling Report Data\n");
@@ -765,6 +773,7 @@ namespace DocSample3
             #endregion
 
             #region Clean Up Reader Configuration
+			/*
             {
                 Console.WriteLine("Factory Default the Reader\n");
 
@@ -800,7 +809,7 @@ namespace DocSample3
                     return;
                 }
             }
-
+            */
             #endregion
 
             Console.WriteLine("  Received " + accessCount + " Access Reports.");
