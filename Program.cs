@@ -26,12 +26,18 @@ namespace DocSample3
                 // Loop through and print out each tag
                 for (int i = 0; i < msg.TagReportData.Length; i++)
                 {
-					//Console.WriteLine(msg);
                     reportCount++;
                     // just write out the EPC as a hex string for now. It is guaranteed to be
                     // in all LLRP reports regardless of default configuration
 
-                    string data = "EPC: ";
+                    string data = "";
+					// Get PC Bits
+					if (msg.TagReportData[i].AirProtocolTagData.Length == 1)
+					{
+						data += ((PARAM_C1G2_PC)(msg.TagReportData[i].AirProtocolTagData[0])).PC_Bits.ToString();
+                    }
+
+					data += "\t";
                     if (msg.TagReportData[i].EPCParameter[0].GetType() == typeof(PARAM_EPC_96))
                     {
                         data += ((PARAM_EPC_96)(msg.TagReportData[i].EPCParameter[0])).EPC.ToHexString();
@@ -41,14 +47,8 @@ namespace DocSample3
                         data += ((PARAM_EPCData)(msg.TagReportData[i].EPCParameter[0])).EPC.ToHexString();
                     }
 
-					// Get PC Bits
-					if (msg.TagReportData[i].AirProtocolTagData.Length == 1)
-					{
-					    data += " PCBits: ";
-						data += ((PARAM_C1G2_PC)(msg.TagReportData[i].AirProtocolTagData[0])).PC_Bits.ToString();
-                    }
-
                     #region CheckForAccessResults
+                    /*
                     // check for read data results
                     if ((msg.TagReportData[i].AccessCommandOpSpecResult != null))
                     {
@@ -68,14 +68,18 @@ namespace DocSample3
                                 }
                                 else
                                 {
-                                    data += read.Result.ToString();
+                                    //data += read.Result.ToString();
+									data += "None";
                                 }
                             }
                         }
                     }
+                    */
                     #endregion
 
+                    //Console.WriteLine("----------------------------------------------------");
                     Console.WriteLine(data);
+					//Console.WriteLine("msg.TagReportData[{0}]: {1}", i, msg.TagReportData[i]);
                 }
             }
         }
@@ -147,7 +151,7 @@ namespace DocSample3
 
             #region Initializing
             {
-                Console.WriteLine("Initializing\n");
+                Console.WriteLine("# Initializing");
 
                 //Create an instance of LLRP reader client.
                 reader = new LLRPClient();
@@ -159,7 +163,7 @@ namespace DocSample3
 
             #region EventHandlers
             {
-                Console.WriteLine("Adding Event Handlers\n");
+                Console.WriteLine("# Adding Event Handlers");
                 reader.OnReaderEventNotification += new delegateReaderEventNotification(reader_OnReaderEventNotification);
                 reader.OnRoAccessReportReceived += new delegateRoAccessReport(reader_OnRoAccessReportReceived);
             }
@@ -167,7 +171,7 @@ namespace DocSample3
 
             #region Connecting
             {
-                Console.WriteLine("Connecting To Reader\n");
+                Console.WriteLine("# Connecting To Reader");
 
                 ENUM_ConnectionAttemptStatusType status;
 
@@ -179,7 +183,7 @@ namespace DocSample3
 
                 if (!ret || status != ENUM_ConnectionAttemptStatusType.Success)
                 {
-                    Console.WriteLine("Failed to Connect to Reader \n");
+                    Console.WriteLine("## Failed to Connect to Reader");
                     return;
                 }
             }
@@ -187,7 +191,7 @@ namespace DocSample3
 
             #region EnableExtensions
             {
-                Console.WriteLine("Enabling Impinj Extensions\n");
+                Console.WriteLine("# Enabling Impinj Extensions");
 
                 MSG_IMPINJ_ENABLE_EXTENSIONS imp_msg =
                                                 new MSG_IMPINJ_ENABLE_EXTENSIONS();
@@ -218,7 +222,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("Enable Extensions Command Timed out\n");
+                    Console.WriteLine("## Enable Extensions Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -227,7 +231,7 @@ namespace DocSample3
 
             #region FactoryDefault
             {
-                Console.WriteLine("Factory Default the Reader\n");
+                Console.WriteLine("# Factory Default the Reader");
 
                 // factory default the reader
                 MSG_SET_READER_CONFIG msg_cfg = new MSG_SET_READER_CONFIG();
@@ -257,7 +261,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("SET_READER_CONFIG Command Timed out\n");
+                    Console.WriteLine("## SET_READER_CONFIG Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -266,7 +270,7 @@ namespace DocSample3
 
             #region getReaderCapabilities
             {
-                Console.WriteLine("Getting Reader Capabilities\n");
+                Console.WriteLine("# Getting Reader Capabilities");
 
                 MSG_GET_READER_CAPABILITIES cap = new MSG_GET_READER_CAPABILITIES();
                 cap.MSG_ID = msgID++;
@@ -294,7 +298,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("GET reader Capabilities Command Timed out\n");
+                    Console.WriteLine("## GET reader Capabilities Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -308,7 +312,7 @@ namespace DocSample3
                 if ((dev_cap == null) ||
                     (dev_cap.DeviceManufacturerName != 25882))
                 {
-                    Console.WriteLine("Could not determine reader model number\n");
+                    Console.WriteLine("## Could not determine reader model number");
                     reader.Close();
                     return;
                 }
@@ -349,7 +353,7 @@ namespace DocSample3
 
             #region SetReaderConfigWithXML
             {
-                Console.WriteLine("Adding SET_READER_CONFIG from XML file \n");
+                Console.WriteLine("# Adding SET_READER_CONFIG from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -366,7 +370,7 @@ namespace DocSample3
 
                     if (obj == null || msg_type != ENUM_LLRP_MSG_TYPE.SET_READER_CONFIG)
                     {
-                        Console.WriteLine("Could not extract message from XML");
+                        Console.WriteLine("## Could not extract message from XML");
                         reader.Close();
                         return;
                     }
@@ -374,7 +378,7 @@ namespace DocSample3
 				catch (Exception e)
                 {
 					Console.WriteLine(e.ToString());
-                    Console.WriteLine("Unable to convert to valid XML");
+                    Console.WriteLine("## Unable to convert to valid XML");
                     reader.Close();
                     return;
                 }
@@ -402,16 +406,16 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("SET_READER_CONFIG Command Timed out\n");
+                    Console.WriteLine("## SET_READER_CONFIG Command Timed out");
                     reader.Close();
                     return;
                 }
             }
             #endregion
 
-            #region ADDRoSpecWithXML
+            #region ADDROSpecWithXML
             {
-                Console.WriteLine("Adding ROSpec from XML file \n");
+                Console.WriteLine("# Adding ROSpec from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -430,14 +434,14 @@ namespace DocSample3
 
                     if (obj == null || msg_type != ENUM_LLRP_MSG_TYPE.ADD_ROSPEC)
                     {
-                        Console.WriteLine("Could not extract message from XML");
+                        Console.WriteLine("## Could not extract message from XML");
                         reader.Close();
                         return;
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("Unable to convert to valid XML");
+                    Console.WriteLine("## Unable to convert to valid XML");
                     reader.Close();
                     return;
                 }
@@ -473,7 +477,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("ADD_ROSPEC Command Timed out\n");
+                    Console.WriteLine("## ADD_ROSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -482,7 +486,7 @@ namespace DocSample3
 
             #region ADDAccessSpecWithXML
             {
-                Console.WriteLine("Adding AccessSpec from XML file \n");
+                Console.WriteLine("# Adding AccessSpec from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -499,14 +503,14 @@ namespace DocSample3
 
                     if (obj == null || msg_type != ENUM_LLRP_MSG_TYPE.ADD_ACCESSSPEC)
                     {
-                        Console.WriteLine("Could not extract message from XML");
+                        Console.WriteLine("## Could not extract message from XML");
                         reader.Close();
                         return;
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("Unable to convert to valid XML");
+                    Console.WriteLine("## Unable to convert to valid XML");
                     reader.Close();
                     return;
                 }
@@ -534,7 +538,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("ADD_ACCESSSPEC Command Timed out\n");
+                    Console.WriteLine("## ADD_ACCESSSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -549,7 +553,7 @@ namespace DocSample3
 			/*
 			{
 
-                Console.WriteLine("Adding AccessSpec from C# objects \n");
+                Console.WriteLine("# Adding AccessSpec from C# objects");
 
                 // create the target tag filter spec to perform access only on these tags
                 // This only requires a single filter (LTK/LLRP supports up to 2 )
@@ -620,7 +624,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("ADD_ACCESSSPEC Command Timed out\n");
+                    Console.WriteLine("## ADD_ACCESSSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -630,7 +634,7 @@ namespace DocSample3
 
             #region EnableAccessSpec
             {
-                Console.WriteLine("Enabling AccessSpec\n");
+                Console.WriteLine("# Enabling AccessSpec");
                 MSG_ENABLE_ACCESSSPEC msg = new MSG_ENABLE_ACCESSSPEC();
                 msg.MSG_ID = msgID++;
 
@@ -654,16 +658,16 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("ENABLE_ACCESSSPEC Command Timed out\n");
+                    Console.WriteLine("## ENABLE_ACCESSSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
             }
             #endregion
 
-            #region EnableRoSpec
+            #region EnableROSpec
             {
-                Console.WriteLine("Enabling RoSpec\n");
+                Console.WriteLine("# Enabling ROSpec");
                 MSG_ENABLE_ROSPEC msg = new MSG_ENABLE_ROSPEC();
                 msg.MSG_ID = msgID++;
                 MSG_ERROR_MESSAGE msg_err;
@@ -686,21 +690,22 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("ENABLE_ROSPEC Command Timed out\n");
+                    Console.WriteLine("## ENABLE_ROSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
             }
             #endregion
 
-            #region StartRoSpec
+            #region StartROSpec
             {
-                Console.WriteLine("Starting RoSpec\n");
+                Console.WriteLine("# Starting ROSpec\n");
+                Console.WriteLine("PCBits\tEPC");
                 MSG_START_ROSPEC msg = new MSG_START_ROSPEC();
                 msg.MSG_ID = msgID++;
 
                 MSG_ERROR_MESSAGE msg_err;
-                msg.ROSpecID = 1111; // this better match the RoSpec we created above
+                msg.ROSpecID = 1111; // this better match the ROSpec we created above
                 MSG_START_ROSPEC_RESPONSE rsp = reader.START_ROSPEC(msg, out msg_err, 12000);
                 if (rsp != null)
                 {
@@ -719,7 +724,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("START_ROSPEC Command Timed out\n");
+                    Console.WriteLine("## START_ROSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -732,7 +737,7 @@ namespace DocSample3
                 Thread.Sleep(5000);
                 #region PollReaderReports
                 {
-                    Console.WriteLine("Polling Report Data\n");
+                    //Console.WriteLine("Polling Report Data\n");
                     MSG_GET_REPORT msg = new MSG_GET_REPORT();
                     MSG_ERROR_MESSAGE msg_err;
                     msg.MSG_ID = msgID++;
@@ -741,12 +746,11 @@ namespace DocSample3
                 #endregion
             }
 
-            #region StopRoSpec
+            #region StopROSpec
             {
-                Console.WriteLine("Stopping RoSpec\n");
                 MSG_STOP_ROSPEC msg = new MSG_STOP_ROSPEC();
                 MSG_ERROR_MESSAGE msg_err;
-                msg.ROSpecID = 1111; // this better match the RoSpec we created above
+                msg.ROSpecID = 1111; // this better match the ROSpec we created above
                 MSG_STOP_ROSPEC_RESPONSE rsp = reader.STOP_ROSPEC(msg, out msg_err, 12000);
                 if (rsp != null)
                 {
@@ -765,17 +769,18 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("STOP_ROSPEC Command Timed out\n");
+                    Console.WriteLine("## STOP_ROSPEC Command Timed out");
                     reader.Close();
                     return;
                 }
             }
+            Console.WriteLine("\n# ROSpec stopped");
             #endregion
 
             #region Clean Up Reader Configuration
 			/*
             {
-                Console.WriteLine("Factory Default the Reader\n");
+                Console.WriteLine("# Factory Default the Reader");
 
                 // factory default the reader
                 MSG_SET_READER_CONFIG msg_cfg = new MSG_SET_READER_CONFIG();
@@ -804,7 +809,7 @@ namespace DocSample3
                 }
                 else
                 {
-                    Console.WriteLine("SET_READER_CONFIG Command Timed out\n");
+                    Console.WriteLine("## SET_READER_CONFIG Command Timed out");
                     reader.Close();
                     return;
                 }
@@ -812,11 +817,13 @@ namespace DocSample3
             */
             #endregion
 
+            Console.WriteLine("----------------------------------------------");
             Console.WriteLine("  Received " + accessCount + " Access Reports.");
             Console.WriteLine("  Received " + reportCount + " Tag Reports.");
             Console.WriteLine("  Received " + eventCount + " Events.");
+            Console.WriteLine("----------------------------------------------");
 
-            Console.WriteLine("Closing\n");
+            Console.WriteLine("# Closing");
             // clean up the reader
             reader.Close();
             reader.OnReaderEventNotification -= new delegateReaderEventNotification(reader_OnReaderEventNotification);

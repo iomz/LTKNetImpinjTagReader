@@ -36,14 +36,18 @@
 							<TagTransitTime>0</TagTransitTime>
 						</C1G2SingulationControl>
 						<Impinj:ImpinjInventorySearchMode>
-							<Impinj:InventorySearchMode>1</Impinj:InventorySearchMode>
-							<!--1 means Single target inventory -->
+							<Impinj:InventorySearchMode>0</Impinj:InventorySearchMode>
+							<!--0 means default -->
+							<!--1 means Single target high count reducted observation -->
+							<!--2 means Dual target inventory -->
+							<!--3 means Single target maximum count single observation-->
 						</Impinj:ImpinjInventorySearchMode>
 					</C1G2InventoryCommand>
 				</AntennaConfiguration>
 			</InventoryParameterSpec>
 		</AISpec>
 	</ROSpec>
+    <!--
 	<ROReportSpec>
 		<ROReportTrigger>Upon_N_Tags_Or_End_Of_ROSpec</ROReportTrigger>
 		<N>1</N>
@@ -68,5 +72,6 @@
 				<Impinj:PeakRSSIMode>Enabled</Impinj:PeakRSSIMode>
 			</Impinj:ImpinjEnablePeakRSSI>
 		</Impinj:ImpinjTagReportContentSelector>
-	</ROReportSpec>
+    </ROReportSpec>
+    -->
 </ADD_ROSPEC>

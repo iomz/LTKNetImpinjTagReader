@@ -29,7 +29,7 @@
 				<MB>1</MB>
 				<WordPointer>0</WordPointer>
 				<WordCount>1</WordCount>
-			</C1G2Read>
+            </C1G2Read>
 		</AccessCommand>
 		<!--To reduce bandwidth, report only when ROSpec generates report  -->
 		<AccessReportSpec>
