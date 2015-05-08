@@ -38,6 +38,12 @@ namespace DocSample3
                     }
 
 					data += "\t";
+					if (msg.TagReportData [i].PeakRSSI.GetType () != null)
+					{
+						data += ((PARAM_PeakRSSI)(msg.TagReportData[i].PeakRSSI)).PeakRSSI.ToString ();
+					}
+
+					data += "\t";
                     if (msg.TagReportData[i].EPCParameter[0].GetType() == typeof(PARAM_EPC_96))
                     {
                         data += ((PARAM_EPC_96)(msg.TagReportData[i].EPCParameter[0])).EPC.ToHexString();
@@ -58,10 +64,9 @@ namespace DocSample3
                             if (msg.TagReportData[i].AccessCommandOpSpecResult[0].GetType()
                                 == typeof(PARAM_C1G2ReadOpSpecResult))
                             {
-                                //PARAM_C1G2ReadOpSpecResult read = (PARAM_C1G2ReadOpSpecResult)msg.TagReportData[i].AccessCommandOpSpecResult[0];
+                                PARAM_C1G2ReadOpSpecResult read = (PARAM_C1G2ReadOpSpecResult)msg.TagReportData[i].AccessCommandOpSpecResult[0];
                                 accessCount++;
-                                /*
-                                data += " AccessData: ";
+                                data += "\t";
                                 if (read.Result == ENUM_C1G2ReadResultType.Success)
                                 {
                                     data += read.ReadData.ToHexWordString();
@@ -70,7 +75,6 @@ namespace DocSample3
                                 {
                                     data += read.Result.ToString();
                                 }
-                                */
                             }
                         }
                     }
@@ -145,13 +149,16 @@ namespace DocSample3
             string readerName = args[0];
             int cycle_duration = Convert.ToInt32(args[1]);
 
-            Console.WriteLine(
+            /*
+			Console.WriteLine(
                 "Impinj C# LTK.NET RFID Application DocSample3 reader - " +
                 readerName + "\n");
+			*/
+			Console.WriteLine("PCBits\tRSSI\tEPC\t\t\tUserMemory");
 
             #region Initializing
             {
-                Console.WriteLine("# Initializing");
+                //Console.WriteLine("# Initializing");
 
                 //Create an instance of LLRP reader client.
                 reader = new LLRPClient();
@@ -163,7 +170,7 @@ namespace DocSample3
 
             #region EventHandlers
             {
-                Console.WriteLine("# Adding Event Handlers");
+                //Console.WriteLine("# Adding Event Handlers");
                 reader.OnReaderEventNotification += new delegateReaderEventNotification(reader_OnReaderEventNotification);
                 reader.OnRoAccessReportReceived += new delegateRoAccessReport(reader_OnRoAccessReportReceived);
             }
@@ -171,7 +178,7 @@ namespace DocSample3
 
             #region Connecting
             {
-                Console.WriteLine("# Connecting To Reader");
+                //Console.WriteLine("# Connecting To Reader");
 
                 ENUM_ConnectionAttemptStatusType status;
 
@@ -191,7 +198,7 @@ namespace DocSample3
 
             #region EnableExtensions
             {
-                Console.WriteLine("# Enabling Impinj Extensions");
+                //Console.WriteLine("# Enabling Impinj Extensions");
 
                 MSG_IMPINJ_ENABLE_EXTENSIONS imp_msg =
                                                 new MSG_IMPINJ_ENABLE_EXTENSIONS();
@@ -231,7 +238,7 @@ namespace DocSample3
 
             #region FactoryDefault
             {
-                Console.WriteLine("# Factory Default the Reader");
+                //Console.WriteLine("# Factory Default the Reader");
 
                 // factory default the reader
                 MSG_SET_READER_CONFIG msg_cfg = new MSG_SET_READER_CONFIG();
@@ -270,7 +277,7 @@ namespace DocSample3
 
             #region getReaderCapabilities
             {
-                Console.WriteLine("# Getting Reader Capabilities");
+                //Console.WriteLine("# Getting Reader Capabilities");
 
                 MSG_GET_READER_CAPABILITIES cap = new MSG_GET_READER_CAPABILITIES();
                 cap.MSG_ID = msgID++;
@@ -353,7 +360,7 @@ namespace DocSample3
 
             #region SetReaderConfigWithXML
             {
-                Console.WriteLine("# Adding SET_READER_CONFIG from XML file");
+                //Console.WriteLine("# Adding SET_READER_CONFIG from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -415,7 +422,7 @@ namespace DocSample3
 
             #region ADDROSpecWithXML
             {
-                Console.WriteLine("# Adding ROSpec from XML file");
+                //Console.WriteLine("# Adding ROSpec from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -486,7 +493,7 @@ namespace DocSample3
 
             #region ADDAccessSpecWithXML
             {
-                Console.WriteLine("# Adding AccessSpec from XML file");
+                //Console.WriteLine("# Adding AccessSpec from XML file");
 
                 Org.LLRP.LTK.LLRPV1.DataType.Message obj;
                 ENUM_LLRP_MSG_TYPE msg_type;
@@ -634,7 +641,7 @@ namespace DocSample3
 
             #region EnableAccessSpec
             {
-                Console.WriteLine("# Enabling AccessSpec");
+                //Console.WriteLine("# Enabling AccessSpec");
                 MSG_ENABLE_ACCESSSPEC msg = new MSG_ENABLE_ACCESSSPEC();
                 msg.MSG_ID = msgID++;
 
@@ -667,7 +674,7 @@ namespace DocSample3
 
             #region EnableROSpec
             {
-                Console.WriteLine("# Enabling ROSpec");
+                //Console.WriteLine("# Enabling ROSpec");
                 MSG_ENABLE_ROSPEC msg = new MSG_ENABLE_ROSPEC();
                 msg.MSG_ID = msgID++;
                 MSG_ERROR_MESSAGE msg_err;
@@ -699,8 +706,7 @@ namespace DocSample3
 
             #region StartROSpec
             {
-                Console.WriteLine("# Starting ROSpec\n");
-                Console.WriteLine("PCBits\tEPC");
+                //Console.WriteLine("# Starting ROSpec\n");
                 MSG_START_ROSPEC msg = new MSG_START_ROSPEC();
                 msg.MSG_ID = msgID++;
 
@@ -819,18 +825,18 @@ namespace DocSample3
             */
             #endregion
 
-            Console.WriteLine("----------------------------------------------");
-            Console.WriteLine("  Received " + accessCount + " Access Reports.");
-            Console.WriteLine("  Received " + reportCount + " Tag Reports.");
-            Console.WriteLine("  Received " + eventCount + " Events.");
-            Console.WriteLine("----------------------------------------------");
-
-            Console.WriteLine("# Closing");
             // clean up the reader
             reader.Close();
             reader.OnReaderEventNotification -= new delegateReaderEventNotification(reader_OnReaderEventNotification);
             reader.OnRoAccessReportReceived -= new delegateRoAccessReport(reader_OnRoAccessReportReceived);
 
+			/*
+			Console.WriteLine("----------------------------------------------");
+			Console.WriteLine("  Received " + accessCount + " Access Reports.");
+			Console.WriteLine("  Received " + reportCount + " Tag Reports.");
+			Console.WriteLine("  Received " + eventCount + " Events.");
+			Console.WriteLine("----------------------------------------------");
+			*/
         }
     }
 }
