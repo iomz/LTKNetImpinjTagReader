@@ -8,8 +8,8 @@
     <ProjectGuid>{DE058C97-E071-44D5-9C22-F0FDC953F85C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocSample3</RootNamespace>
-    <AssemblyName>DocSample3</AssemblyName>
+    <RootNamespace>LTKNetImpinjTagReader</RootNamespace>
+    <AssemblyName>LTKNetImpinjTagReader</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,7 +19,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Commandlineparameters>203.178.141.51</Commandlineparameters>
+    <Commandlineparameters>203.178.141.51 1000</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,10 +34,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="LLRP">
-      <HintPath>..\Debug\LLRP.dll</HintPath>
+      <HintPath>References\LLRP.dll</HintPath>
     </Reference>
     <Reference Include="LLRP.Impinj">
-      <HintPath>..\Debug\LLRP.Impinj.dll</HintPath>
+      <HintPath>References\LLRP.Impinj.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

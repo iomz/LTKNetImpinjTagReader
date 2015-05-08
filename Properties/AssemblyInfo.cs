@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DocSample3")]
+[assembly: AssemblyTitle("LTKNetImpinjTagReader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IMPINJ")]
-[assembly: AssemblyProduct("DocSample3")]
-[assembly: AssemblyCopyright("Copyright © IMPINJ 2009")]
+[assembly: AssemblyCompany("Keio University")]
+[assembly: AssemblyProduct("LTKNetImpinjTagReader")]
+[assembly: AssemblyCopyright("Copyright © Keio University 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ea495718-9404-4034-88c2-e533dde17725")]
+[assembly: Guid("6fce4bee-0656-4e26-b42e-6734704cf67e")]
 
 // Version information for an assembly consists of the following four values:
 //

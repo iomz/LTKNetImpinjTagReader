@@ -7,7 +7,7 @@ using Org.LLRP.LTK.LLRPV1;
 using Org.LLRP.LTK.LLRPV1.Impinj;
 using Org.LLRP.LTK.LLRPV1.DataType;
 
-namespace DocSample3
+namespace LTKNetImpinjTagReader
 {
     class Program
     {
