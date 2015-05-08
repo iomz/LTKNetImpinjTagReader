@@ -368,7 +368,7 @@ namespace LTKNetImpinjTagReader
                 // read the XML from a file and validate its an ADD_ROSPEC
                 try
                 {
-                    FileStream fs = new FileStream(@"../../setReaderConfig.xml", FileMode.Open);
+                    FileStream fs = new FileStream(@"../../Specs/setReaderConfig.xml", FileMode.Open);
                     StreamReader sr = new StreamReader(fs);
                     string s = sr.ReadToEnd();
                     fs.Close();
@@ -431,7 +431,7 @@ namespace LTKNetImpinjTagReader
                 try
                 {
                     string filename;
-                    filename = @"../../addROSpec.xml";
+                    filename = @"../../Specs/addROSpec.xml";
                     FileStream fs = new FileStream(filename, FileMode.Open);
                     StreamReader sr = new StreamReader(fs);
                     string s = sr.ReadToEnd();
@@ -501,7 +501,7 @@ namespace LTKNetImpinjTagReader
                 // read the XML from a file and validate its an ADD_ACCESS_SPEC
                 try
                 {
-                    FileStream fs = new FileStream(@"../../addAccessSpec.xml", FileMode.Open);
+                    FileStream fs = new FileStream(@"../../Specs/addAccessSpec.xml", FileMode.Open);
                     StreamReader sr = new StreamReader(fs);
                     string s = sr.ReadToEnd();
                     fs.Close();
