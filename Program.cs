@@ -48,7 +48,6 @@ namespace DocSample3
                     }
 
                     #region CheckForAccessResults
-                    /*
                     // check for read data results
                     if ((msg.TagReportData[i].AccessCommandOpSpecResult != null))
                     {
@@ -59,8 +58,9 @@ namespace DocSample3
                             if (msg.TagReportData[i].AccessCommandOpSpecResult[0].GetType()
                                 == typeof(PARAM_C1G2ReadOpSpecResult))
                             {
-                                PARAM_C1G2ReadOpSpecResult read = (PARAM_C1G2ReadOpSpecResult)msg.TagReportData[i].AccessCommandOpSpecResult[0];
+                                //PARAM_C1G2ReadOpSpecResult read = (PARAM_C1G2ReadOpSpecResult)msg.TagReportData[i].AccessCommandOpSpecResult[0];
                                 accessCount++;
+                                /*
                                 data += " AccessData: ";
                                 if (read.Result == ENUM_C1G2ReadResultType.Success)
                                 {
@@ -68,13 +68,12 @@ namespace DocSample3
                                 }
                                 else
                                 {
-                                    //data += read.Result.ToString();
-									data += "None";
+                                    data += read.Result.ToString();
                                 }
+                                */
                             }
                         }
                     }
-                    */
                     #endregion
 
                     //Console.WriteLine("----------------------------------------------------");
@@ -130,7 +129,7 @@ namespace DocSample3
 
         static void usage()
         {
-            Console.WriteLine("usage: docsample3.exe <readerName|IP>");
+            Console.WriteLine("usage: docsample3.exe <readerName|IP> <cycle duration in ms>");
             return;
         }
 
@@ -138,12 +137,13 @@ namespace DocSample3
         {
             LLRPClient reader;
 
-            if (args.Length != 1)
+            if (args.Length != 2)
             {
                 usage();
                 return;
             }
             string readerName = args[0];
+            int cycle_duration = Convert.ToInt32(args[1]);
 
             Console.WriteLine(
                 "Impinj C# LTK.NET RFID Application DocSample3 reader - " +
@@ -734,7 +734,7 @@ namespace DocSample3
             // wait around to collect some data.
             for (int delay = 0; delay < 1; delay++)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(cycle_duration);
                 #region PollReaderReports
                 {
                     //Console.WriteLine("Polling Report Data\n");
@@ -747,6 +747,7 @@ namespace DocSample3
             }
 
             #region StopROSpec
+            /*
             {
                 MSG_STOP_ROSPEC msg = new MSG_STOP_ROSPEC();
                 MSG_ERROR_MESSAGE msg_err;
@@ -775,6 +776,7 @@ namespace DocSample3
                 }
             }
             Console.WriteLine("\n# ROSpec stopped");
+            */
             #endregion
 
             #region Clean Up Reader Configuration

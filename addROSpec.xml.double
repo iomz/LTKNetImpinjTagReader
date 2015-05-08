@@ -14,7 +14,7 @@
 			</ROSpecStopTrigger>
 		</ROBoundarySpec>
 		<AISpec>
-			<AntennaIDs>1</AntennaIDs>
+            <AntennaIDs>1,9</AntennaIDs>
 			<AISpecStopTrigger>
 				<AISpecStopTriggerType>Null</AISpecStopTriggerType>
 				<DurationTrigger>0</DurationTrigger>
