@@ -16,6 +16,7 @@ namespace LTKNetImpinjTagReader
         static int reportCount = 0;
         static int eventCount = 0;
         static int accessCount = 0;
+        static bool rospecStarted = false;
 
         // Simple Handler for receiving the tag reports from the reader
         static void reader_OnRoAccessReportReceived(MSG_RO_ACCESS_REPORT msg)
@@ -81,8 +82,11 @@ namespace LTKNetImpinjTagReader
                     #endregion
 
                     //Console.WriteLine("----------------------------------------------------");
-                    Console.WriteLine(data);
-					//Console.WriteLine("msg.TagReportData[{0}]: {1}", i, msg.TagReportData[i]);
+                    if (rospecStarted) 
+                    {
+                        Console.WriteLine(data);
+					    //Console.WriteLine("msg.TagReportData[{0}]: {1}", i, msg.TagReportData[i]);
+                    }
                 }
             }
         }
@@ -133,7 +137,7 @@ namespace LTKNetImpinjTagReader
 
         static void usage()
         {
-            Console.WriteLine("usage: docsample3.exe <readerName|IP> <cycle duration in ms>");
+            Console.WriteLine("usage: LTKNetImpinjTagReader.exe <readerName|IP> <cycle duration in ms>");
             return;
         }
 
@@ -151,10 +155,10 @@ namespace LTKNetImpinjTagReader
 
             /*
 			Console.WriteLine(
-                "Impinj C# LTK.NET RFID Application DocSample3 reader - " +
+                "LTKNetImpinjTagReader\n" +
+                "Impinj C# LTK.NET RFID Application reader - " +
                 readerName + "\n");
 			*/
-			Console.WriteLine("PCBits\tRSSI\tEPC\t\t\tUserMemory");
 
             #region Initializing
             {
@@ -740,6 +744,11 @@ namespace LTKNetImpinjTagReader
             // wait around to collect some data.
             for (int delay = 0; delay < 1; delay++)
             {
+			    Console.WriteLine("PCBits\tRSSI\tEPC\t\t\tUserMemory");
+                reportCount = 0;
+                eventCount = 0;
+                accessCount = 0;
+                rospecStarted = true;
                 Thread.Sleep(cycle_duration);
                 #region PollReaderReports
                 {
