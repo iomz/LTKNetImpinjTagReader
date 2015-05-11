@@ -2,5 +2,7 @@ bin
 obj
 logs
 References
+*.csv
 *.orig
 *.tgz
+

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import inspect
 import natsort
@@ -40,8 +40,8 @@ def main():
                         if l.startswith('#') or l.startswith('PCBits'):
                             continue
 
-                        # should containts = pcbits, rssi, epc, user_memory
-                        pcbits, rssi, epc, user_memory = l.split()
+                        # should containts = pcbits, rssi, tag, user_memory
+                        pcbits, rssi, tag, user_memory = l.split()
                         rssis[combination].append(float(rssi))
                     total_counts[combination] = total_counts[combination]/3.0
 
@@ -49,7 +49,7 @@ def main():
     pp = pprint.PrettyPrinter(indent = 2)
     pp.pprint(rssis)
 
-    with open('average_rssi.csv', 'wb') as f:
+    with open('rssi.csv', 'wb') as f:
         writer = csv.writer(f)
         head = ['Combinations', 'Low', 'Open', 'Close', 'High', 'Tooltip', 'Total Read Counts']
         writer.writerow(head)

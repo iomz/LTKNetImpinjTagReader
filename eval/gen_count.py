@@ -1,15 +1,14 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import inspect
 import natsort
 import os
 import pprint
 from re import sub
-from sys import exit
+from sys import argv, exit
 import csv
 
 FILE_EXTENSIONS = ('.tmp', '.raw', '.csv')
-ABSTRACT_NAME = True
 
 class PCBits(object):
     PCBITS_LENGTH = 16
@@ -39,6 +38,11 @@ def get_iso_from_afi(afi):
     return None
     
 def main():
+    if len(argv) != 1:
+        ABSTRACT_NAME = False
+    else:
+        ABSTRACT_NAME = True
+
     script_file = inspect.getfile(inspect.currentframe())
     log_directory = os.path.dirname(os.path.abspath(script_file)) + '/logs'
 
@@ -63,7 +67,10 @@ def main():
                         count, rssi, tag, pcbits = l.split()
                         pc = PCBits(int(pcbits, 10))
                         if pc.nsi == 0 and pc.epc_length == 96: # GS1
-                            standard = "GS1"
+                            if not tag.startswith('302DB'):
+                                standard = "PROPRIETARY"
+                            else:
+                                standard = "GS1"
                         elif pc.nsi == 1 and 0xA1 <= pc.afi <= 0xAA: # ISO
                             standard = get_iso_from_afi(pc.afi)
                         else:
@@ -95,10 +102,9 @@ def main():
     pp = pprint.PrettyPrinter(indent = 2)
     pp.pprint(combinations)
     pp.pprint(tags)
-    pp.pprint(abst_tags)
     pp.pprint(counts)
 
-    with open('ro_access_report_counts.csv', 'wb') as f:
+    with open('count.csv', 'wb') as f:
         writer = csv.writer(f)
         head = ['Tag']
         if ABSTRACT_NAME:
