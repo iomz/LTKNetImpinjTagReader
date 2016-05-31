@@ -11,7 +11,7 @@ namespace LTKNetImpinjTagReader
 {
     class Program
     {
-		static UInt32 msgID = 0;
+        static UInt32 msgID = 0;
 
         static int reportCount = 0;
         static int eventCount = 0;
@@ -32,19 +32,19 @@ namespace LTKNetImpinjTagReader
                     // in all LLRP reports regardless of default configuration
 
                     string data = "";
-					// Get PC Bits
-					if (msg.TagReportData[i].AirProtocolTagData.Length == 1)
-					{
-						data += ((PARAM_C1G2_PC)(msg.TagReportData[i].AirProtocolTagData[0])).PC_Bits.ToString();
+                    // Get PC Bits
+                    if (msg.TagReportData[i].AirProtocolTagData.Length == 1)
+                    {
+                        data += ((PARAM_C1G2_PC)(msg.TagReportData[i].AirProtocolTagData[0])).PC_Bits.ToString();
                     }
 
-					data += "\t";
-					if (msg.TagReportData [i].PeakRSSI.GetType () != null)
-					{
-						data += ((PARAM_PeakRSSI)(msg.TagReportData[i].PeakRSSI)).PeakRSSI.ToString ();
-					}
+                    data += "\t";
+                    if (msg.TagReportData [i].PeakRSSI.GetType () != null)
+                    {
+                        data += ((PARAM_PeakRSSI)(msg.TagReportData[i].PeakRSSI)).PeakRSSI.ToString ();
+                    }
 
-					data += "\t";
+                    data += "\t";
                     if (msg.TagReportData[i].EPCParameter[0].GetType() == typeof(PARAM_EPC_96))
                     {
                         data += ((PARAM_EPC_96)(msg.TagReportData[i].EPCParameter[0])).EPC.ToHexString();
@@ -85,7 +85,7 @@ namespace LTKNetImpinjTagReader
                     if (rospecStarted) 
                     {
                         Console.WriteLine(data);
-					    //Console.WriteLine("msg.TagReportData[{0}]: {1}", i, msg.TagReportData[i]);
+                        //Console.WriteLine("msg.TagReportData[{0}]: {1}", i, msg.TagReportData[i]);
                     }
                 }
             }
@@ -154,11 +154,11 @@ namespace LTKNetImpinjTagReader
             int cycle_duration = Convert.ToInt32(args[1]);
 
             /*
-			Console.WriteLine(
+            Console.WriteLine(
                 "LTKNetImpinjTagReader\n" +
                 "Impinj C# LTK.NET RFID Application reader - " +
                 readerName + "\n");
-			*/
+            */
 
             #region Initializing
             {
@@ -386,9 +386,9 @@ namespace LTKNetImpinjTagReader
                         return;
                     }
                 }
-				catch (Exception e)
+                catch (Exception e)
                 {
-					Console.WriteLine(e.ToString());
+                    Console.WriteLine(e.ToString());
                     Console.WriteLine("## Unable to convert to valid XML");
                     reader.Close();
                     return;
@@ -397,6 +397,16 @@ namespace LTKNetImpinjTagReader
                 // Communicate that message to the reader
                 MSG_SET_READER_CONFIG msg = (MSG_SET_READER_CONFIG)obj;
                 msg.MSG_ID = msgID++;
+
+                /*
+                // Create a one-element array to hold the GPI configuration
+                // We are only enabling one GPI in this example
+                msg.GPIPortCurrentState = new PARAM_GPIPortCurrentState[1];
+                msg.GPIPortCurrentState[0] = new PARAM_GPIPortCurrentState();
+                // Enable GPI port #1
+                msg.GPIPortCurrentState[0].GPIPortNum = 1;
+                msg.GPIPortCurrentState[0].Config = true;
+                //*/
 
                 MSG_ERROR_MESSAGE msg_err;
                 MSG_SET_READER_CONFIG_RESPONSE rsp = reader.SET_READER_CONFIG(msg, out msg_err, 12000);
@@ -460,13 +470,13 @@ namespace LTKNetImpinjTagReader
                 MSG_ADD_ROSPEC msg = (MSG_ADD_ROSPEC)obj;
                 msg.MSG_ID = msgID++;
 
-				/*
-				// Add impinj extensions to the ROSpec msg
-				PARAM_ImpinjInventorySearchMode searchMode = new PARAM_ImpinjInventorySearchMode();
-				searchMode.InventorySearchMode = ENUM_ImpinjInventorySearchType.Single_Target;
-				PARAM_AISpec aiSpec = new PARAM_AISpec();
-				// ...
-				*/
+                /*
+                // Add impinj extensions to the ROSpec msg
+                PARAM_ImpinjInventorySearchMode searchMode = new PARAM_ImpinjInventorySearchMode();
+                searchMode.InventorySearchMode = ENUM_ImpinjInventorySearchType.Single_Target;
+                PARAM_AISpec aiSpec = new PARAM_AISpec();
+                // ...
+                */
 
                 // Communicate that message to the reader
                 MSG_ERROR_MESSAGE msg_err;
@@ -557,12 +567,12 @@ namespace LTKNetImpinjTagReader
             #endregion
 
             #region ADDAccessSpec
-			/* This section adds a second accessSpec identical to the
+            /* This section adds a second accessSpec identical to the
              * first (except for its ID).  This is duplicate code with
              * the goal of showing an example of how to build LLRP specs
              * from C# objects rather than XML */
-			/*
-			{
+            /*
+            {
 
                 Console.WriteLine("# Adding AccessSpec from C# objects");
 
@@ -640,7 +650,7 @@ namespace LTKNetImpinjTagReader
                     return;
                 }
             }
-			*/
+            */
             #endregion
 
             #region EnableAccessSpec
@@ -744,7 +754,7 @@ namespace LTKNetImpinjTagReader
             // wait around to collect some data.
             for (int delay = 0; delay < 1; delay++)
             {
-			    Console.WriteLine("PCBits\tRSSI\tEPC\t\t\tUserMemory");
+                Console.WriteLine("PCBits\tRSSI\tEPC\t\t\tUserMemory");
                 reportCount = 0;
                 eventCount = 0;
                 accessCount = 0;
@@ -795,7 +805,7 @@ namespace LTKNetImpinjTagReader
             #endregion
 
             #region Clean Up Reader Configuration
-			/*
+            /*
             {
                 Console.WriteLine("# Factory Default the Reader");
 
@@ -839,13 +849,11 @@ namespace LTKNetImpinjTagReader
             reader.OnReaderEventNotification -= new delegateReaderEventNotification(reader_OnReaderEventNotification);
             reader.OnRoAccessReportReceived -= new delegateRoAccessReport(reader_OnRoAccessReportReceived);
 
-			/*
-			Console.WriteLine("----------------------------------------------");
-			Console.WriteLine("  Received " + accessCount + " Access Reports.");
-			Console.WriteLine("  Received " + reportCount + " Tag Reports.");
-			Console.WriteLine("  Received " + eventCount + " Events.");
-			Console.WriteLine("----------------------------------------------");
-			*/
+            Console.WriteLine("----------------------------------------------");
+            Console.WriteLine("  Received " + accessCount + " Access Reports.");
+            Console.WriteLine("  Received " + reportCount + " Tag Reports.");
+            Console.WriteLine("  Received " + eventCount + " Events.");
+            Console.WriteLine("----------------------------------------------");
         }
     }
 }
