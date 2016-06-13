@@ -1,50 +1,51 @@
 <?xml version="1.0"?>
 <ADD_ROSPEC xmlns="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0" xmlns:llrp="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Impinj="http://developer.impinj.com/ltk/schema/encoding/xml/1.4" xsi:schemaLocation="http://www.llrp.org/ltk/schema/core/encoding/xml/1.0 http://www.llrp.org/ltk/schema/core/encoding/xml/1.0/llrp.xsd http://developer.impinj.com/ltk/schema/encoding/xml/1.4 http://developer.impinj.com/ltk/schema/encoding/xml/1.4/impinj.xsd" MessageID="0">
-	<ROSpec>
-		<ROSpecID>1111</ROSpecID>
-		<Priority>0</Priority>
-		<CurrentState>Disabled</CurrentState>
-		<ROBoundarySpec>
-			<ROSpecStartTrigger>
-				<ROSpecStartTriggerType>Null</ROSpecStartTriggerType>
-			</ROSpecStartTrigger>
-			<ROSpecStopTrigger>
-				<ROSpecStopTriggerType>Null</ROSpecStopTriggerType>
-				<DurationTriggerValue>0</DurationTriggerValue>
-			</ROSpecStopTrigger>
-		</ROBoundarySpec>
-		<AISpec>
-			<AntennaIDs>1</AntennaIDs>
-			<AISpecStopTrigger>
-				<AISpecStopTriggerType>Null</AISpecStopTriggerType>
-				<DurationTrigger>0</DurationTrigger>
-			</AISpecStopTrigger>
-			<InventoryParameterSpec>
-				<InventoryParameterSpecID>1234</InventoryParameterSpecID>
-				<ProtocolID>EPCGlobalClass1Gen2</ProtocolID>
-				<AntennaConfiguration>
-					<AntennaID>1</AntennaID>
-					<C1G2InventoryCommand>
-						<TagInventoryStateAware>false</TagInventoryStateAware>
-						<C1G2RFControl>
-							<ModeIndex>1000</ModeIndex>
-							<Tari>0</Tari>
-						</C1G2RFControl>
-						<C1G2SingulationControl>
-							<Session>2</Session>
-							<TagPopulation>32</TagPopulation>
-							<TagTransitTime>0</TagTransitTime>
-						</C1G2SingulationControl>
-						<Impinj:ImpinjInventorySearchMode>
-							<Impinj:InventorySearchMode>2</Impinj:InventorySearchMode>
-							<!--0 means default -->
-							<!--1 means Single target high count reducted observation -->
-							<!--2 means Dual target inventory -->
-							<!--3 means Single target maximum count single observation-->
-						</Impinj:ImpinjInventorySearchMode>
-					</C1G2InventoryCommand>
-				</AntennaConfiguration>
-			</InventoryParameterSpec>
-		</AISpec>
-    </ROSpec>
+  <ROSpec>
+    <ROSpecID>1234</ROSpecID>
+    <Priority>0</Priority>
+    <CurrentState>Disabled</CurrentState>
+    <ROBoundarySpec>
+      <ROSpecStartTrigger>
+        <ROSpecStartTriggerType>Null</ROSpecStartTriggerType>
+      </ROSpecStartTrigger>
+      <ROSpecStopTrigger>
+        <ROSpecStopTriggerType>Null</ROSpecStopTriggerType>
+        <DurationTriggerValue>0</DurationTriggerValue>
+      </ROSpecStopTrigger>
+    </ROBoundarySpec>
+    <AISpec>
+      <AntennaIDs>0</AntennaIDs>
+      <!-- 0 means to work on all antennas -->
+      <AISpecStopTrigger>
+        <AISpecStopTriggerType>Null</AISpecStopTriggerType>
+        <DurationTrigger>0</DurationTrigger>
+      </AISpecStopTrigger>
+      <InventoryParameterSpec>
+        <InventoryParameterSpecID>1234</InventoryParameterSpecID>
+        <ProtocolID>EPCGlobalClass1Gen2</ProtocolID>
+        <AntennaConfiguration>
+          <AntennaID>1</AntennaID>
+          <C1G2InventoryCommand>
+            <TagInventoryStateAware>false</TagInventoryStateAware>
+            <C1G2RFControl>
+              <ModeIndex>1000</ModeIndex>
+              <Tari>0</Tari>
+            </C1G2RFControl>
+            <C1G2SingulationControl>
+              <Session>2</Session>
+              <TagPopulation>32</TagPopulation>
+              <TagTransitTime>0</TagTransitTime>
+            </C1G2SingulationControl>
+            <Impinj:ImpinjInventorySearchMode>
+              <Impinj:InventorySearchMode>0</Impinj:InventorySearchMode>
+              <!--0 means default -->
+              <!--1 means Single target high count reducted observation -->
+              <!--2 means Dual target inventory -->
+              <!--3 means Single target maximum count single observation-->
+            </Impinj:ImpinjInventorySearchMode>
+          </C1G2InventoryCommand>
+        </AntennaConfiguration>
+      </InventoryParameterSpec>
+    </AISpec>
+  </ROSpec>
 </ADD_ROSPEC>
